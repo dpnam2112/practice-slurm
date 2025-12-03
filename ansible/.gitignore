@@ -1,0 +1,43 @@
+# =====================
+# Ansible
+# =====================
+*.retry            # Retry files when a playbook fails
+*.vault_pass       # Vault password files (never commit secrets!)
+*.log              # Ansible logs
+*.out              # Any captured outputs
+
+# Roles & Collections (if generated locally, ignore them)
+roles/*/files/
+roles/*/vars/
+roles/*/defaults/
+collections/ansible_collections/*/*/.git/
+
+# SSH keys
+*.pem
+*.key
+*.id_rsa
+*.id_rsa.pub
+
+# =====================
+# Python (common with Ansible)
+# =====================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.env
+
+# =====================
+# Misc
+# =====================
+*.swp
+*.swo
+*.bak
+.DS_Store
+
+*.xml
+
