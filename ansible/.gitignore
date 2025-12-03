@@ -8,8 +8,6 @@
 
 # Roles & Collections (if generated locally, ignore them)
 roles/*/files/
-roles/*/vars/
-roles/*/defaults/
 collections/ansible_collections/*/*/.git/
 
 # SSH keys

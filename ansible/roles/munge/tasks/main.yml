@@ -1,0 +1,12 @@
+---
+- name: Install MUNGE
+  include_tasks: install.yml
+
+- name: Ensure MUNGE key is generated and distributed
+  include_tasks: key.yml
+
+- name: Ensure MUNGE service is enabled and started
+  service:
+    name: munge
+    enabled: true
+    state: started

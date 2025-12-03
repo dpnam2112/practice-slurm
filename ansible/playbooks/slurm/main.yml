@@ -1,0 +1,8 @@
+- name: Setup SLURM cluster
+  hosts: slurm_cluster
+  become: true
+
+  roles:
+    - role: munge
+      vars:
+        munge_key_source_host: slurm-ctrl

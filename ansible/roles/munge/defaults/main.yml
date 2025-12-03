@@ -1,0 +1,6 @@
+---
+# Where the MUNGE key will be stored on the control node after fetching.
+munge_key_local_path: "munge_keys/munge.key"
+
+# Host that generates the canonical munge.key
+munge_key_source_host: "slurm-controller"

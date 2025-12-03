@@ -1,0 +1,19 @@
+---
+- name: Install MUNGE packages (Debian/Ubuntu)
+  apt:
+    name:
+      - munge
+      - libmunge-dev
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install MUNGE packages (RHEL/CentOS/Rocky)
+  yum:
+    name:
+      - munge
+      - munge-libs
+      - munge-devel
+    state: present
+  when: ansible_os_family == "RedHat"
+
