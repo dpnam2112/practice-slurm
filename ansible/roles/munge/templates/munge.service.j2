@@ -1,0 +1,17 @@
+[Unit]
+Description=MUNGE authentication service
+Documentation=man:munged(8) man:munge(7)
+After=network.target syslog.target
+RequiresMountsFor=/var/run/munge /etc/munge
+
+[Service]
+Type=forking
+ExecStart=/usr/sbin/munged --num-threads=2
+PIDFile=/var/run/munge/munged.pid
+User={{ munge_svc_user }}
+Group={{ munge_svc_group }}
+RuntimeDirectory=munge
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target

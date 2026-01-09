@@ -1,0 +1,5 @@
+- name: Setup MUNGE
+  hosts: slurm_cluster
+  become: true
+  roles:
+    - role: munge

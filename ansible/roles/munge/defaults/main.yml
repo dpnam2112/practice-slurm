@@ -1,6 +1,4 @@
 ---
-# Where the MUNGE key will be stored on the control node after fetching.
-munge_key_local_path: "munge_keys/munge.key"
-
-# Host that generates the canonical munge.key
-munge_key_source_host: "slurm-controller"
+munge_svc_user: munge
+munge_svc_group: munge
+# munge_key_b64

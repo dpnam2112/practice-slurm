@@ -1,5 +1,9 @@
 ---
-- name: restart munge
+- name: Reload Systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Restart Munge
   service:
     name: munge
     state: restarted

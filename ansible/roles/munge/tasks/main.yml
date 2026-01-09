@@ -1,9 +1,35 @@
 ---
+- name: Create Munge Group
+  group:
+    name: "{{ munge_svc_group }}"
+    gid: 1101
+    state: present
+
+- name: Create Munge User
+  user:
+    name: "{{ munge_svc_user }}"
+    uid: 1101
+    group: munge
+    shell: /sbin/nologin
+    system: yes
+    state: present
+
 - name: Install MUNGE
   include_tasks: install.yml
 
 - name: Ensure MUNGE key is generated and distributed
   include_tasks: key.yml
+
+- name: Deploy Munge Systemd Service
+  template:
+    src: munge.service.j2
+    dest: /etc/systemd/system/munge.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload Systemd
+    - Restart Munge
 
 - name: Ensure MUNGE service is enabled and started
   service:

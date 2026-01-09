@@ -1,4 +1,17 @@
 ---
+- name: Install EPEL repository
+  dnf:
+    name: epel-release
+    state: present
+    update_cache: yes
+
+- name: Enable CRB Repository (Rocky/Alma/RHEL 9)
+  command: crb enable
+  when: 
+    - ansible_os_family == "RedHat"
+    - ansible_distribution_major_version == "9"
+  ignore_errors: true  # Ignore if already enabled
+
 - name: Install MUNGE packages (Debian/Ubuntu)
   apt:
     name:
@@ -16,4 +29,3 @@
       - munge-devel
     state: present
   when: ansible_os_family == "RedHat"
-
