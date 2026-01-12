@@ -1,0 +1,16 @@
+---
+- name: daemon reload
+  systemd:
+    daemon_reload: true
+
+- name: restart slurmctld
+  service:
+    name: slurmctld
+    state: restarted
+  when: slurm_role == "slurm_ctrl"
+
+- name: restart slurmd
+  service:
+    name: slurmd
+    state: restarted
+  when: slurm_role == "slurm_compute"

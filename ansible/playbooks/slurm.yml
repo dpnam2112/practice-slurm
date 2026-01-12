@@ -1,0 +1,33 @@
+- name: Setup SLURM
+  hosts: slurm_cluster
+  pre_tasks:
+    - name: Define Controller Hostname
+      set_fact:
+        my_slurm_controller: "{{ groups['slurm_controller'][0] }}"
+      run_once: true
+
+    - name: Define Controller IP
+      set_fact:
+        my_slurm_controller_ip: "{{ hostvars[groups['slurm_controller'][0]]['ansible_host'] }}"
+      run_once: true
+
+    - name: Construct Node Data List
+      set_fact:
+        my_slurm_compute_nodes_data: >-
+          {{
+            my_slurm_compute_nodes_data | default([]) +
+            [{
+              'name': item,
+              'ip': hostvars[item]['ansible_host']
+            }]
+          }}
+      loop: "{{ groups['slurm_compute_nodes'] }}"
+      run_once: true
+
+  roles:
+    - role: slurm
+      vars:
+        slurm_controller_host: "{{ my_slurm_controller }}"
+        slurm_controller_ip: "{{ my_slurm_controller_ip }}"
+        slurm_compute_node_list: "{{ my_slurm_compute_nodes_data }}"
+      become: true

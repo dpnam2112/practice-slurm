@@ -1,0 +1,21 @@
+[Unit]
+Description=Slurm Controller Daemon
+After=network.target munge.service
+ConditionPathExists={{ slurm_conf_dir }}/slurm.conf
+
+[Service]
+Type=forking
+# SECURITY: Runs as the unprivileged slurm user
+User={{ slurm_user }}
+Group={{ slurm_group }}
+
+EnvironmentFile=-/etc/sysconfig/slurmctld
+ExecStart=/usr/sbin/slurmctld
+ExecReload=/bin/kill -HUP $MAINPID
+
+# Must match SlurmctldPidFile in slurm.conf
+PIDFile={{ slurm_run_dir }}/slurmctld.pid
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

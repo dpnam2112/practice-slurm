@@ -1,0 +1,23 @@
+[Unit]
+Description=Slurm Node Daemon
+After=network.target munge.service
+ConditionPathExists={{ slurm_conf_dir }}/slurm.conf
+
+[Service]
+Type=forking
+# SECURITY: Must run as root to perform setuid() for jobs
+EnvironmentFile=-/etc/sysconfig/slurmd
+ExecStart=/usr/sbin/slurmd
+ExecReload=/bin/kill -HUP $MAINPID
+User={{ slurm_user }}
+Group={{ slurm_group }}
+
+# Must match SlurmdPidFile in slurm.conf
+PIDFile={{ slurm_run_dir }}/slurmd.pid
+
+Restart=on-failure
+LimitMEMLOCK=infinity
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
