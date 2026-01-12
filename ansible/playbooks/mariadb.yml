@@ -1,0 +1,13 @@
+- name: Setup MariaDB
+  hosts: mariadb
+  become: true
+  roles:
+    - role: mariadb
+
+  tasks:
+    - name: Open MariaDB port (3306)
+      ansible.posix.firewalld:
+        port: 3306/tcp
+        permanent: true
+        state: enabled
+        immediate: true
