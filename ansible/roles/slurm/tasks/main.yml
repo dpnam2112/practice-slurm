@@ -1,14 +1,26 @@
 - name: Set Slurm User to 'slurm' for Controller
   set_fact:
-    slurm_user: slurm
-    slurm_group: slurm
-  when: slurm_role == 'slurm_ctrl'
+    slurm_user: "{{ slurm_ctrl_user }}"
+    slurm_group: "{{ slurm_ctrl_user }}"
+  when: slurm_role == 'slurm_ctrl' or slurm_role == 'slurm_dbd'
 
 - name: Set Slurm User to 'root' for Nodes
   set_fact:
     slurm_user: root
     slurm_group: root
   when: slurm_role == 'slurm_compute' or slurm_role == 'slurm_login'
+
+- name: Ensure slurmctrld group exists
+  group:
+    name: "{{ slurm_ctrl_user }}"
+
+- name: Ensure slurmctrld user exists
+  user:
+    name: "{{ slurm_ctrl_user }}"
+    system: true
+    shell: /usr/sbin/nologin
+    group: "{{ slurm_ctrl_user }}"
+    create_home: false
 
 - name: Ensure slurm group exists
   group:
@@ -55,38 +67,11 @@
     - restart slurmctld
     - restart slurmd
 
-- name: Deploy Slurm Controller Service
-  template:
-    src: slurmctld.service.j2
-    dest: /etc/systemd/system/slurmctld.service
-    mode: '0644'
-  when: slurm_role == 'slurm_ctrl'
-  notify:
-    - daemon reload
-    - restart slurmctld
+- name: Setup SLURM controller
+  include_tasks: slurm_ctrl.yml
 
-- name: Deploy Slurm Node Service
-  template:
-    src: slurmd.service.j2
-    dest: /etc/systemd/system/slurmd.service
-    mode: '0644'
-  when: slurm_role == 'slurm_compute'
-  notify:
-    - daemon reload
-    - restart slurmd
+- name: Setup SLURM compute nodes
+  include_tasks: slurm_compute.yml
 
-- name: Enable and start slurmd on compute nodes
-  service:
-    name: slurmd
-    state: started
-    enabled: true
-    daemon_reload: true
-  when: slurm_role == 'slurm_compute'
-
-- name: Enable and start slurmctld on controller
-  service:
-    name: slurmctld
-    state: started
-    enabled: true
-    daemon_reload: true
-  when: slurm_role == 'slurm_ctrl'
+- name: Setup SLURM database daemon
+  include_tasks: slurm_dbd.yml

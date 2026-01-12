@@ -34,3 +34,9 @@
         name: slurm-slurmd
         state: present
       when: slurm_role == 'slurm_compute'
+
+    - name: Install SlurmDBD
+      dnf:
+        name: slurm-slurmdbd
+        state: present
+      when: slurm_role == 'slurm_dbd'

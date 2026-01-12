@@ -1,0 +1,16 @@
+[Unit]
+Description=Slurm DBD Accounting Daemon
+After=network.target munge.service
+ConditionPathExists={{ slurm_conf_dir }}/slurmdbd.conf
+
+[Service]
+Type=forking
+User={{ slurm_user }}
+Group={{ slurm_group }}
+RuntimeDirectory=slurmdbd
+ExecStart=/usr/sbin/slurmdbd
+PIDFile=/run/slurmdbd/slurmdbd.pid
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

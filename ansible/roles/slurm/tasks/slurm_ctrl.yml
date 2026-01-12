@@ -1,0 +1,17 @@
+- name: Deploy Slurm Controller Service
+  template:
+    src: slurmctld.service.j2
+    dest: /etc/systemd/system/slurmctld.service
+    mode: '0644'
+  when: slurm_role == 'slurm_ctrl'
+  notify:
+    - daemon reload
+    - restart slurmctld
+
+- name: Enable and start slurmctld on controller
+  service:
+    name: slurmctld
+    state: started
+    enabled: true
+    daemon_reload: true
+  when: slurm_role == 'slurm_ctrl'

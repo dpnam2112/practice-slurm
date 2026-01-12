@@ -30,4 +30,39 @@
         slurm_controller_host: "{{ my_slurm_controller }}"
         slurm_controller_ip: "{{ my_slurm_controller_ip }}"
         slurm_compute_node_list: "{{ my_slurm_compute_nodes_data }}"
+        slurm_dbd_host: "{{ my_slurm_controller }}"
       become: true
+
+  tasks:
+      - name: Firewall configuration
+        become: true
+        block:
+        - name: Open Slurmctld port (6817) on Controller
+          ansible.posix.firewalld:
+            port: 6817/tcp
+            permanent: true
+            state: enabled
+            immediate: true
+          when: 
+            - ansible_facts.os_family == "RedHat"
+            - slurm_role == 'slurm_ctrl'
+
+        - name: open slurmd port (6818) on compute nodes
+          ansible.posix.firewalld:
+            port: 6818/tcp
+            permanent: true
+            state: enabled
+            immediate: true
+          when: 
+            - ansible_facts.os_family == "RedHat"
+            - slurm_role == 'slurm_compute'
+
+        - name: open slurmd port (6819) on database daemon node
+          ansible.posix.firewalld:
+            port: 6819/tcp
+            permanent: true
+            state: enabled
+            immediate: true
+          when: 
+            - ansible_facts.os_family == "RedHat"
+            - slurm_role == 'slurm_dbd'

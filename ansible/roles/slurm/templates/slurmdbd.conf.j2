@@ -1,0 +1,13 @@
+AuthType=auth/munge
+DbdHost={{ ansible_hostname }}
+
+# Database Connection (The Vault)
+StorageType=accounting_storage/mysql
+StorageHost={{ slurm_mariadb_host }}
+StorageUser={{ slurm_mariadb_user }}
+StoragePass={{ slurm_mariadb_pass }}
+StorageLoc={{ slurm_mariadb_dbname }}
+
+SlurmUser={{ slurm_user }}
+LogFile={{ slurm_log_dir }}/slurmdbd.log
+PidFile=/run/slurmdbd/slurmdbd.pid

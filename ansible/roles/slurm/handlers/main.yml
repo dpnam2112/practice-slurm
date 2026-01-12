@@ -14,3 +14,10 @@
     name: slurmd
     state: restarted
   when: slurm_role == "slurm_compute"
+
+- name: restart slurmdbd
+  service:
+    name: slurmdbd
+    state: restarted
+    daemon_reload: true
+  when: slurm_role == "slurm_dbd"
