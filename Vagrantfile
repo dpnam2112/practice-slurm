@@ -2,7 +2,8 @@ Vagrant.configure("2") do |config|
   nodes = {
     "controller" => { :ip => "192.168.121.10", :mem => 2048, :cpu => 2 },
     "worker-01"  => { :ip => "192.168.121.11", :mem => 1024, :cpu => 1 },
-    "worker-02"  => { :ip => "192.168.121.12", :mem => 1024, :cpu => 1 }
+    "worker-02"  => { :ip => "192.168.121.12", :mem => 1024, :cpu => 1 },
+    "login-01"  => { :ip => "192.168.121.13", :mem => 1024, :cpu => 1 }
   }
 
   config.vm.box = "generic/rocky9"

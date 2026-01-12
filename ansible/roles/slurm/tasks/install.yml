@@ -23,13 +23,13 @@
           - slurm
         state: present
 
-    - name: Install Slurm Controller packages (Controller only)
+    - name: Install Slurm Controller packages
       dnf:
         name: slurm-slurmctld
         state: present
       when: slurm_role == 'slurm_ctrl'
 
-    - name: Install Slurm Node packages (Nodes only)
+    - name: Install Slurmd
       dnf:
         name: slurm-slurmd
         state: present

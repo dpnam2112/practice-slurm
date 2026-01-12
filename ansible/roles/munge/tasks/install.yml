@@ -18,7 +18,7 @@
       - munge
       - libmunge-dev
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_os_family == "Debian"
 
 - name: Install MUNGE packages (RHEL/CentOS/Rocky)

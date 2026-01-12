@@ -8,7 +8,7 @@
   set_fact:
     slurm_user: root
     slurm_group: root
-  when: slurm_role == 'slurm_compute'
+  when: slurm_role == 'slurm_compute' or slurm_role == 'slurm_login'
 
 - name: Ensure slurm group exists
   group:
