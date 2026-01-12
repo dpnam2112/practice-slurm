@@ -8,12 +8,14 @@
       ansible.builtin.hostname:
         name: "{{ inventory_hostname }}"
 
-    - name: Install basic packages (vim, curl)
+    - name: Install basic packages
       ansible.builtin.package:
         name:
           - vim
           - curl
           - htop
+          - net-tools
+          - nmap-ncat
         state: present
 
     - name: Generate /etc/hosts file
