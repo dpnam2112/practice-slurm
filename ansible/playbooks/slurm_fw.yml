@@ -1,0 +1,25 @@
+# Firewall configuration
+#
+- name: Setup firewall for SLURM nodes
+  hosts: slurm_cluster
+  become: true
+  tasks:
+    - name: Open Slurmctld port (6817) on Controller
+      ansible.posix.firewalld:
+        port: 6817/tcp
+        permanent: true
+        state: enabled
+        immediate: true
+      when: 
+        - ansible_facts.os_family == "RedHat"
+        - slurm_role == 'slurm_ctrl'
+
+    - name: Open Slurmd port (6818) on Compute Nodes
+      ansible.posix.firewalld:
+        port: 6818/tcp
+        permanent: true
+        state: enabled
+        immediate: true
+      when: 
+        - ansible_facts.os_family == "RedHat"
+        - slurm_role == 'slurm_compute'
