@@ -12,9 +12,10 @@ Group={{ slurm_group }}
 EnvironmentFile=-/etc/sysconfig/slurmctld
 ExecStart=/usr/sbin/slurmctld
 ExecReload=/bin/kill -HUP $MAINPID
+RuntimeDirectory=slurmctld
 
 # Must match SlurmctldPidFile in slurm.conf
-PIDFile={{ slurm_run_dir }}/slurmctld.pid
+PIDFile={{ slurmctld_run_dir }}/slurmctld.pid
 Restart=on-failure
 
 [Install]

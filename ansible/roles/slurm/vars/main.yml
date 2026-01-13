@@ -1,4 +1,6 @@
 slurm_conf_dir: /etc/slurm
 slurm_log_dir: /var/log/slurm
-slurm_run_dir: /run/slurm
+slurmd_run_dir: /run/slurmd
+slurmctld_run_dir: /run/slurmctld
+slurmdbd_run_dir: /run/slurmdbd
 slurm_spool_dir: /var/spool/slurm

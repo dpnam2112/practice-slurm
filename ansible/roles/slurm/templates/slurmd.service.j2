@@ -11,9 +11,11 @@ ExecStart=/usr/sbin/slurmd
 ExecReload=/bin/kill -HUP $MAINPID
 User={{ slurm_user }}
 Group={{ slurm_group }}
+TimeoutSec=180
+RuntimeDirectory=slurmd
 
 # Must match SlurmdPidFile in slurm.conf
-PIDFile={{ slurm_run_dir }}/slurmd.pid
+PIDFile={{ slurmd_run_dir }}/slurmd.pid
 
 Restart=on-failure
 LimitMEMLOCK=infinity
